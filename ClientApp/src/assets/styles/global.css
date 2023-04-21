@@ -1,0 +1,20 @@
+﻿@font-face {
+    font-family: 'Rubik Pixels'; /* Устанавливаем название шрифта */
+    src: url('../fonts/RubikPixels-Regular.ttf'); /* Устанавливаем путь к файлу шрифта на вашем сервере или ссылку на внешний источник */
+}
+@font-face {
+    font-family: 'Orbitron-VariableFont'; /* Устанавливаем название шрифта */
+    src: url('../fonts//Orbitron/Orbitron-VariableFont_wght.ttf') format('truetype-variations'); /* Устанавливаем путь к файлу шрифта на вашем сервере или ссылку на внешний источник */
+    font-weight: 400 900; /* Устанавливаем диапазон весов шрифта, например, от 1 до 999 */
+}
+
+body {
+    background-color: #010101;
+    color: #cdcdcd;
+    font-family: 'Orbitron-VariableFont';
+
+}
+
+[onclick]:hover {
+    cursor: pointer;
+}
