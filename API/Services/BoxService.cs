@@ -9,13 +9,25 @@ namespace PhobosReact.API.Services
     public class BoxService : IBoxService
     {
         private readonly IBoxRepository _boxRepository;
-        public BoxService(IBoxRepository boxRepository)
+        private readonly IMappingService _mappingService;
+        public BoxService(IBoxRepository boxRepository,
+                          IMappingService mappingService)
         {
             _boxRepository = boxRepository;
+            _mappingService = mappingService;
         }
 
-        public async Task<ErrorOr<Created>> CreateBox(Box box)
+        public async Task<ErrorOr<Box>> CreateBox(BoxDto boxDto)
         {
+            // 1. Создаем объект коробки. Если ошибка - возвращаем проблему
+            //TODO дополнительно обрабоатать ошибку создания здесь
+            ErrorOr<Box> requestToBoxResult = MappingService.FromDto(boxDto);
+            if (requestToBoxResult.IsError)
+            {
+                return await Problem(requestToBoxResult.Errors);
+            }
+
+            var box = requestToBoxResult.Value;
 
             ErrorOr<Created> createBoxResult = await _boxRepository.CreateBox(box);
 

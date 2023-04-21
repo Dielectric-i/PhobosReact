@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using PhobosReact.API.Contracts;
+using PhobosReact.API.Data.Dto;
 using PhobosReact.API.Models.Warehouse;
 using PhobosReact.API.Services;
 
@@ -18,19 +19,12 @@ namespace PhobosReact.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBox(CreateBoxRequest request)
+        public async Task<IActionResult> CreateBox(BoxDto boxDto)
         {
-            // 1. Создаем объект коробки. Если ошибка - возвращаем проблему
-            ErrorOr<Box> requestToBoxResult = Box.From(request);
-            if (requestToBoxResult.IsError)
-            {
-                return await Problem(requestToBoxResult.Errors);
-            }
-
-            var box = requestToBoxResult.Value;
+           
 
             // Отправляем запрос в сервис
-            ErrorOr<Created> createBoxResult = await _boxService.CreateBox(box);
+            ErrorOr<Created> createBoxResult = await _boxService.CreateBox(boxDto);
 
             return await createBoxResult.MatchAsync<IActionResult>(
                 async created => Ok(await MapBoxResponceAsync(box)),
