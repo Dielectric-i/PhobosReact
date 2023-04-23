@@ -6,8 +6,7 @@ namespace PhobosReact.API.Data.Interfaces
 {
     public interface IBoxRepository
     {
-        Task<ErrorOr<Created>> CreateBox(Box box);
-        Task<ErrorOr<Box>> GetBox(Guid id);
-        Task<IEnumerable<Box>> GetBoxesInSpace(int id);
+        Task<ErrorOr<BoxDto>> CreateBox(BoxDto boxDto);
+        Task<ErrorOr<BoxDto>> GetBox(Guid id);
     }
 }

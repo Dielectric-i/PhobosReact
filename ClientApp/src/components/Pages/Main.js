@@ -1,31 +1,20 @@
 import UpperPanel from '../UI/UpperPanel'
 import CardsField from '../UI/CardsField';
-import { useState, useEffect } from 'react';
 
 const Main = () => {
-    const [cards, setCards] = useState(null);
 
-    useEffect(() => {
-        getDataFromApi()
-    }, [])
+    const title = 'APP'
+    const apiEndpoints = ['section/'];
+    const typeMappings = { // Объект с соответствиями типов и эндпоинтов
+        'space/': 'Space',
+        'section/': 'Section',
+    };
 
-    function getDataFromApi() {
-    fetch(`section/`)
-        .then((results) => {
-            return results.json();
-        })
-        .then((data) => {
-            setCards(data); // сохраняем данные в состоянии компонента
-        })
-        .catch((error) => {
-            console.error('Ошибка при получении данных:', error);
-        });
-    }
     return (
-        <div className="main">
-            <UpperPanel title={ "APP"} />
+        <div className='main'>
+            <UpperPanel title={title} />
             {
-                cards && <CardsField cards={cards} />
+                <CardsField typeMappings={typeMappings} apiEndpoints={apiEndpoints} />
             }
         </div>
     )

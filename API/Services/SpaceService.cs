@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using PhobosReact.API.Data.Dto;
 using PhobosReact.API.Data.Interfaces;
 using PhobosReact.API.Models.Warehouse;
 using PhobosReact.API.ServicesError;
@@ -26,9 +27,9 @@ namespace PhobosReact.API.Services
             return Result.Created;
         }
 
-        public async Task<ErrorOr<IEnumerable<Space>>> GetAllSpaces()
+        public async Task<ErrorOr<IEnumerable<SpaceDto>>> GetAllSpaces()
         {
-            ErrorOr<IEnumerable<Space>> getAllSpacesResult = await _spaceRepository.GetAllSpaces();
+            ErrorOr<IEnumerable<SpaceDto>> getAllSpacesResult = await _spaceRepository.GetAllSpaces();
             if (getAllSpacesResult.IsError)
             {
                 return getAllSpacesResult.Errors;

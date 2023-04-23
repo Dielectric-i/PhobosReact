@@ -3,9 +3,8 @@ import styles from './Warehouse.module.css';
 import UpperPanel from '../UI/UpperPanel'
 import CardsField from '../UI/CardsField';
 
-const Warehouse = () => {
+const Space = (title = { title }) => {
 
-    const title = "Warehouse";
     const apiEndpoints = ['space/'];
     const typeMappings = { // Объект с соответствиями типов и эндпоинтов
         'space/': 'Space',
@@ -23,4 +22,4 @@ const Warehouse = () => {
     );
 };
 
-export default Warehouse;
+export default Space;

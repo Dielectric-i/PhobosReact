@@ -86,7 +86,7 @@ namespace PhobosReact.API.Services
 
         //       ITEM     //
         //----------------//
-        public static ErrorOr<Item> FromDto(ItemDto itemDto)
+        public ErrorOr<Item> FromDto(ItemDto itemDto)
         {
             return Item.Create(
                 id: itemDto.Id,

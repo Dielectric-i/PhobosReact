@@ -23,7 +23,7 @@ namespace PhobosReact.API.ServicesError
                 code: "Box.NotFound",
                 description: "Box not found"
                 );
-            public static Error CreationFailed(Exception ex) => Error.Failure(
+            public static Error RepositoryExceprion(Exception ex) => Error.Failure(
 
                  code: "Box.CreationFailed",
                 description: "Failed to create Box"
