@@ -4,7 +4,7 @@ using PhobosReact.API.Models;
 namespace PhobosReact.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]/[action]")]
     public class SectionController : ApiController
     {
         private static readonly IEnumerable<Section> _section = new[]
@@ -14,7 +14,7 @@ namespace PhobosReact.API.Controllers
             new Section{Id =3, Name = "Orders", Type = "Section"}
         };
         [HttpGet]
-        public Section[] Get()
+        public Section[] GetAllSections()
         {
             Section[] section = _section.ToArray();
             //System.Threading.Thread.Sleep(2000);

@@ -7,7 +7,7 @@ const SpaceCard = ({ title, type, children }) =>
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`space/${title}`);
+        navigate(`/Warehouse/Space/${title}`);
     };
 
     const handleButtonClick = (event) => {

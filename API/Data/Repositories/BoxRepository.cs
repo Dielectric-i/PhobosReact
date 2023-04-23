@@ -1,4 +1,5 @@
 ﻿using ErrorOr;
+using Microsoft.EntityFrameworkCore;
 using PhobosReact.API.Data.Dto;
 using PhobosReact.API.Data.Interfaces;
 using PhobosReact.API.Services;
@@ -31,6 +32,34 @@ namespace PhobosReact.API.Data.Repositories
             }
 
             return boxDto;
+        }
+
+        public async Task<ErrorOr<IEnumerable<BoxDto>>> GetAllBoxes()
+        {
+            var errors = new List<Error>();
+            var boxesDto = new List<BoxDto>();
+            try
+            {
+                //List<BoxDto> boxesDto = await _context.Boxes.Include(b => b.Boxes).Include(b => b.Items).ToListAsync();
+                boxesDto = await _context.Boxes.Include("*").ToListAsync();
+            }
+            catch (Exception ex)
+            {
+
+                errors.Add(Errors.Box.RepositoryExceprion(ex));
+            }
+
+            if (boxesDto == null)
+            {
+                errors.Add(Errors.Box.NotFound);
+            }
+
+            if (errors.Count > 0)
+            {
+                return errors;
+            }
+
+            return boxesDto;
         }
 
         public async Task<ErrorOr<BoxDto>> GetBox(Guid id)

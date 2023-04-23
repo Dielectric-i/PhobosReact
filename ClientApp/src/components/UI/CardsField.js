@@ -2,8 +2,9 @@ import SectionCard from './SectionCard';
 import SpaceCard from './SpaceCard';
 import styles from './CardsField.module.css'
 import { useEffect, useState } from 'react'
+import typeMappings from '../Share/typeMappings'
 
-const CardsField = ({ typeMappings, apiEndpoints }) => {
+const CardsField = ({ apiEndpoints }) => {
 
     useEffect(() => { getDataFromApi(); }, []);
 

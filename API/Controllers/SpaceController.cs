@@ -8,7 +8,7 @@ using PhobosReact.API.Services;
 namespace PhobosReact.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]/[action]")]
     public class SpaceController : ApiController
     {
         private static readonly IEnumerable<Space> _spaces = new[]

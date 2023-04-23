@@ -1,5 +1,6 @@
 import Main from "./components/Pages/Main";
 import Warehouse from "./components/Pages/Warehouse";
+import SpacePage from "./components/Pages/SpacePage";
 
 const AppRoutes = [
   {
@@ -7,12 +8,12 @@ const AppRoutes = [
     element: <Main />
   },
   {
-    path: '/warehouse',
+    path: '/Warehouse',
     element: <Warehouse />
   },
   {
-    path: '/warehouse',
-    element: <Warehouse />
+    path: '/Warehouse/Space/:spaceName',
+    element: <SpacePage />
   }
 ];
 

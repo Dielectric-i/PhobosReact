@@ -9,7 +9,7 @@ using PhobosReact.API.Services;
 namespace PhobosReact.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]/[action]")]
     public class BoxController : ApiController
     {
         private readonly IBoxService _boxService;
@@ -37,7 +37,16 @@ namespace PhobosReact.API.Controllers
             ErrorOr<BoxDto> getBoxResult = await _boxService.GetBox(id);
 
             return await getBoxResult.MatchAsync<IActionResult>(
-                async box => Ok(getBoxResult.Value),
+                async boxDto => Ok(getBoxResult.Value),
+                errors => Problem(errors));
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllBoxes()
+        {
+            ErrorOr<IEnumerable<BoxDto>> getAllBoxesResult = await _boxService.GetAllBoxes();
+
+            return await getAllBoxesResult.MatchAsync<IActionResult>(
+                async boxesDto => Ok(getAllBoxesResult.Value),
                 errors => Problem(errors));
         }
     }

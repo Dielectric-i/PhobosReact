@@ -6,18 +6,13 @@ import CardsField from '../UI/CardsField';
 const Warehouse = () => {
 
     const title = "Warehouse";
-    const apiEndpoints = ['space/'];
-    const typeMappings = { // Объект с соответствиями типов и эндпоинтов
-        'space/': 'Space',
-        'section/': 'Section',
-        'box/': 'Box',
-    };
+    const apiEndpoints = ['/api/space/GetAllSpaces'];
    
     return (
         <div className={styles.warehouse}>
             <UpperPanel title={title} />
             {
-                <CardsField typeMappings={typeMappings} apiEndpoints={apiEndpoints } />
+                <CardsField apiEndpoints={apiEndpoints } />
             }
         </div>
     );

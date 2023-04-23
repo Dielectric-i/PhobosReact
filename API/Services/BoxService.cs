@@ -65,6 +65,18 @@ namespace PhobosReact.API.Services
 
         }
 
+        public async Task<ErrorOr<IEnumerable<BoxDto>>> GetAllBoxes()
+        {
+            ErrorOr<IEnumerable<BoxDto>> resultGetAllBoxes = await _boxRepository.GetAllBoxes();
+
+            if (resultGetAllBoxes.IsError)
+            {
+                return resultGetAllBoxes.Errors;
+            }
+
+            return resultGetAllBoxes;
+        }
+
         public async Task<ErrorOr<BoxDto>> GetBox(Guid id)
         {
             // 

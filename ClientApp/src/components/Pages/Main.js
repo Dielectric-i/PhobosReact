@@ -4,17 +4,13 @@ import CardsField from '../UI/CardsField';
 const Main = () => {
 
     const title = 'APP'
-    const apiEndpoints = ['section/'];
-    const typeMappings = { // Объект с соответствиями типов и эндпоинтов
-        'space/': 'Space',
-        'section/': 'Section',
-    };
+    const apiEndpoints = ['/api/section/GetAllSections'];
 
     return (
         <div className='main'>
             <UpperPanel title={title} />
             {
-                <CardsField typeMappings={typeMappings} apiEndpoints={apiEndpoints} />
+                <CardsField apiEndpoints={apiEndpoints} />
             }
         </div>
     )
