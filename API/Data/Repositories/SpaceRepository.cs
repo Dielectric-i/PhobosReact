@@ -43,23 +43,32 @@ namespace PhobosReact.API.Data.Repositories
             return Space.From(space);
         }
 
-        public async Task<ErrorOr<IEnumerable<Space>>> GetAllSpaces()
+        public async Task<ErrorOr<IEnumerable<SpaceDto>>> GetAllSpaces()
         {
-            // Get Dto From Db
-            var spaceDtoList = await _context.Spaces.Include(s => s.Boxes)
+            var errors = new List<Error>();
+
+            var spacesDto = new List<SpaceDto>();
+            try
+            {
+            spacesDto = await _context.Spaces.Include(s => s.Boxes)
                                                     .Include(i => i.Items)
                                                     .ToListAsync();
-
-            // Mapping Dto
-            List<Space> spaceList = new List<Space>();
-            foreach (var spaceDto in spaceDtoList)
+            }
+            catch (Exception ex)
             {
-                spaceList.Add(Space.From(spaceDto));
+                errors.Add(Errors.Box.RepositoryExceprion(ex));
             }
 
-            //TODO add null check
+            if (spacesDto == null)
+            {
+                errors.Add(Errors.Space.NotFound);
+            }
 
-            return spaceList;
+            if (errors.Count > 0)
+            {
+                return errors;
+            }
+            return spacesDto;
         }
     }
 

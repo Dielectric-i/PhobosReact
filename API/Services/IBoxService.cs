@@ -6,7 +6,7 @@ namespace PhobosReact.API.Services
 {
     public interface IBoxService
     {
-        Task<ErrorOr<Created>> CreateBox(Box box);
-        Task<ErrorOr<Box>> GetBox(Guid id);
+        Task<ErrorOr<BoxDto>> CreateBox(BoxDto boxDto);
+        Task<ErrorOr<BoxDto>> GetBox(Guid id);
     }
 }

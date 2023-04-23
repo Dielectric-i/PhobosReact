@@ -1,6 +1,7 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
 using PhobosReact.API.Contracts;
+using PhobosReact.API.Data.Dto;
 using PhobosReact.API.Models.Warehouse;
 using PhobosReact.API.Services;
 
@@ -60,11 +61,11 @@ namespace PhobosReact.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllSpaces()
         {
-            ErrorOr<IEnumerable<Space>> requestAllSpacesResult = await _spaceService.GetAllSpaces();
+            ErrorOr<IEnumerable<SpaceDto>> requestAllSpacesResult = await _spaceService.GetAllSpaces();
 
 
             return await requestAllSpacesResult.MatchAsync<IActionResult>(
-                async succes => Ok(await MapGetAllSpacesResponceAsync(requestAllSpacesResult.Value.ToList())),
+                async success => Ok(success),
                 errors => Problem(errors));
 
 
