@@ -1,9 +1,10 @@
 ﻿using ErrorOr;
 using Microsoft.AspNetCore.Mvc;
-using PhobosReact.API.Contracts;
 using PhobosReact.API.Data.Dto;
-using PhobosReact.API.Models.Warehouse;
+using PhobosReact.API.Data.Models;
 using PhobosReact.API.Services;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PhobosReact.API.Controllers
 {
@@ -24,46 +25,35 @@ namespace PhobosReact.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSpace(CreateSpaceRequest request)
+        public async Task<IActionResult> CreateSpace(SpaceDto request)
         {
-            // Создаем объект Space
-            var requestToSpaceResult = Space.From(request);
-
-            // Если ошибка - возвращаем проблему, если все ок - возвращаем объект типа Space
-            if (requestToSpaceResult.IsError)
-            {
-                return await Problem(requestToSpaceResult.Errors);
-            }
-
-            var space = requestToSpaceResult.Value;
 
             // Отправляем запрос в сервис
-            ErrorOr<Created> createSpaceResult = await _spaceService.CreateSpace(space);
+            ErrorOr<SpaceDto> createSpaceResult = await _spaceService.CreateSpace(request);
 
-           /* createSpaceResult.MatchAsync<IActionResult>(
-               async created => createSpaceResult.Value,
-                errors => Problem(errors));*/
-
-            return Ok();
+            return await createSpaceResult.MatchAsync<IActionResult>(
+                   async created => Ok(created),
+                   errors => Problem(errors));
         }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSpace(Guid id)
         {
-            ErrorOr<Space> getSpaceResult = await _spaceService.GetSpace(id);
+            ErrorOr<SpaceDto> getSpaceResult = await _spaceService.GetSpace(id);
 
-            return await getSpaceResult.MatchAsync<IActionResult> (
-                async space => Ok( await MapSpaceResponceAsync(space)),
+            return await getSpaceResult.MatchAsync<IActionResult>(
+                async spaceDto => Ok(spaceDto),
                 errors => Problem(errors));
         }
 
-
         [HttpGet]
+        [Produces("application/json")]
         public async Task<IActionResult> GetAllSpaces()
         {
+            //Request.Headers.Add("Content-Type", "application/json");
+
             ErrorOr<IEnumerable<SpaceDto>> requestAllSpacesResult = await _spaceService.GetAllSpaces();
 
-
+            
             return await requestAllSpacesResult.MatchAsync<IActionResult>(
                 async success => Ok(success),
                 errors => Problem(errors));
@@ -75,31 +65,6 @@ namespace PhobosReact.API.Controllers
         public async Task<IActionResult> DeleteSpace(int id)
         {
             return NoContent();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpsertSpace(int id, UpsertSpaceRequest request)
-        {
-            return NoContent();
-        }
-        private static async Task<SpaceResponse> MapSpaceResponceAsync(Space space)
-        {
-            return new SpaceResponse(
-                                id: space.Id,
-                                name: space.Name,
-                                boxes: space.Boxes,
-                                items: space.Items);
-        }
-        private static async Task<GetAllSpacesResponce> MapGetAllSpacesResponceAsync(List<Space> spaces)
-        {
-            List<SpaceResponse> listSpacesResponce = new List<SpaceResponse> ();
-
-            foreach (Space space in spaces)
-            {
-                listSpacesResponce.Add(await MapSpaceResponceAsync(space));
-            }
-            
-            return new GetAllSpacesResponce(listSpacesResponce);
         }
     }
 }

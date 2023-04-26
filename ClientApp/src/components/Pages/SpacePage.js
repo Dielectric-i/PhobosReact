@@ -10,12 +10,7 @@ const SpacePages = () => {
     const { spaceName } = useParams();
     const title = spaceName
 
-    const apiEndpoints = ['space/'];
-   /* const typeMappings = { // Объект с соответствиями типов и эндпоинтов
-        '/api/section/GetAllSections': 'Space',
-        '/api/space/GetAllSpaces': 'Section',
-        '/api/box/GetAllBoxes': 'Box',
-    };*/
+    const apiEndpoints = ['/api/space/GetSpace'];
    
     return (
         <div className={styles.spacePage}>

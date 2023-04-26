@@ -35,10 +35,7 @@ namespace PhobosReact.Migrations
                     b.Property<Guid?>("ParentBoxId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("SpaceDtoId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("SpaceId")
+                    b.Property<Guid>("SpaceDtoId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -96,9 +93,13 @@ namespace PhobosReact.Migrations
                         .WithMany("Boxes")
                         .HasForeignKey("BoxDtoId");
 
-                    b.HasOne("PhobosReact.API.Data.Dto.SpaceDto", null)
+                    b.HasOne("PhobosReact.API.Data.Dto.SpaceDto", "SpaceDto")
                         .WithMany("Boxes")
-                        .HasForeignKey("SpaceDtoId");
+                        .HasForeignKey("SpaceDtoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SpaceDto");
                 });
 
             modelBuilder.Entity("PhobosReact.API.Data.Dto.ItemDto", b =>

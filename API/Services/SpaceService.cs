@@ -1,7 +1,6 @@
 ﻿using ErrorOr;
 using PhobosReact.API.Data.Dto;
 using PhobosReact.API.Data.Interfaces;
-using PhobosReact.API.Models.Warehouse;
 using PhobosReact.API.ServicesError;
 
 
@@ -10,21 +9,54 @@ namespace PhobosReact.API.Services
     public class SpaceService : ISpaceService
     {
         private readonly ISpaceRepository _spaceRepository;
-        public SpaceService(ISpaceRepository spaceRepository)
+        private readonly IMappingService _mappingService;
+        public SpaceService(ISpaceRepository spaceRepository,
+                            IMappingService mappingService)
         {
             _spaceRepository = spaceRepository;
+            _mappingService = mappingService;
         }
 
-        public async Task<ErrorOr<Created>> CreateSpace(Space space)
+        public async Task<ErrorOr<SpaceDto>> CreateSpace(SpaceDto request)
         {
-            ErrorOr<Created> createSpaceResult = await _spaceRepository.CreateSpace(space);
+            // Общий список ошибок метода
+            var errors = new List<Error>();
+
+            // 1. Создаем Space из Dto. В модели Space происходит валидация
+            var resultFromDto = _mappingService.FromDto(request);
+            if (resultFromDto.IsError)
+            {
+                errors.AddRange(resultFromDto.Errors);
+            }
+
+            var space = resultFromDto.Value;
+
+            //----------------------------------
+            // Здесь бизнес логика  будет
+            //----------------------------------
+
+            // 2. Space to Dto
+            ErrorOr<SpaceDto> resultToDto = await _mappingService.ToDto(space);
+            if (resultToDto.IsError)
+            {
+                errors.AddRange(resultToDto.Errors);
+            }
+
+            var spaceDto = resultToDto.Value;
+
+            ErrorOr<SpaceDto> createSpaceResult = await _spaceRepository.CreateSpace(spaceDto);
 
             if (createSpaceResult.IsError)
             {
                 return createSpaceResult.Errors;
             }
 
-            return Result.Created;
+            if (errors.Count > 0)
+            {
+                return errors;
+            }
+
+            return createSpaceResult.Value;
         }
 
         public async Task<ErrorOr<IEnumerable<SpaceDto>>> GetAllSpaces()
@@ -42,14 +74,27 @@ namespace PhobosReact.API.Services
             //return getAllSpacesResult.Value; // А так по идее должно происходить неяное приобразование, но видимо из за того что обернуто в IEnumerable - не происходит
         }
 
-        public async Task<ErrorOr<Space>> GetSpace(Guid id)
+        public async Task<ErrorOr<SpaceDto>> GetSpace(Guid id)
         {
+            var errors = new List<Error>();
 
-            var result = await _spaceRepository.GetSpace(id);
+            var getSpaceResult = await _spaceRepository.GetSpace(id);
 
-                if(result is Space) { return result; }
+            if (getSpaceResult.IsError)
+            {
+                errors.AddRange(getSpaceResult.Errors);
+            }
 
-            return Errors.Space.NotFound;
+            if (getSpaceResult.Value == null)
+            {
+                errors.Add(Errors.Space.NotFound);
+            }
+
+            if (errors.Count>0)
+            {
+                return errors;
+            }
+            return getSpaceResult;
         }
     }
 }

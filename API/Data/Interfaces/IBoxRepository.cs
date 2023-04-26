@@ -1,6 +1,5 @@
 ﻿using ErrorOr;
 using PhobosReact.API.Data.Dto;
-using PhobosReact.API.Models.Warehouse;
 
 namespace PhobosReact.API.Data.Interfaces
 {

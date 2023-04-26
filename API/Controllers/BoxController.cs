@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PhobosReact.API.Contracts;
 using PhobosReact.API.Data.Dto;
-using PhobosReact.API.Models.Warehouse;
 using PhobosReact.API.Services;
 
 
@@ -20,11 +19,11 @@ namespace PhobosReact.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBox(BoxDto boxDto)
+        public async Task<IActionResult> CreateBox(CreateBoxRequest request)
         {
            
             // Отправляем запрос в сервис
-            ErrorOr<BoxDto> createBoxResult = await _boxService.CreateBox(boxDto);
+            ErrorOr<BoxDto> createBoxResult = await _boxService.CreateBox(request);
 
             return await createBoxResult.MatchAsync<IActionResult>(
                 async created => Ok(createBoxResult.Value),
@@ -46,7 +45,7 @@ namespace PhobosReact.API.Controllers
             ErrorOr<IEnumerable<BoxDto>> getAllBoxesResult = await _boxService.GetAllBoxes();
 
             return await getAllBoxesResult.MatchAsync<IActionResult>(
-                async boxesDto => Ok(getAllBoxesResult.Value),
+                async boxesDto => Ok(boxesDto),
                 errors => Problem(errors));
         }
     }

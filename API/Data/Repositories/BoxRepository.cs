@@ -40,8 +40,8 @@ namespace PhobosReact.API.Data.Repositories
             var boxesDto = new List<BoxDto>();
             try
             {
-                //List<BoxDto> boxesDto = await _context.Boxes.Include(b => b.Boxes).Include(b => b.Items).ToListAsync();
-                boxesDto = await _context.Boxes.Include("*").ToListAsync();
+                boxesDto = await _context.Boxes.Include(b => b.Boxes).Include(b => b.Items).ToListAsync();
+               // boxesDto = await _context.Boxes.Include("*").ToListAsync();
             }
             catch (Exception ex)
             {

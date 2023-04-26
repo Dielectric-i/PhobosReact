@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhobosReact.API.Data.Dto;
-using PhobosReact.API.Models;
-using PhobosReact.API.Models.Warehouse;
 
 namespace PhobosReact.API.Data
 {

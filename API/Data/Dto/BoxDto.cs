@@ -1,4 +1,5 @@
-﻿using PhobosReact.API.Models.Warehouse;
+﻿
+using System.Text.Json.Serialization;
 
 namespace PhobosReact.API.Data.Dto
 {
@@ -9,9 +10,11 @@ namespace PhobosReact.API.Data.Dto
 
         public Guid? ParentBoxId { get; set; }
 
-        public List<BoxDto> Boxes { get; set; }
-        public List<ItemDto> Items { get; set; }
+        public List<BoxDto> Boxes { get; set; } = new List<BoxDto>();
+        public List<ItemDto> Items { get; set; } = new List<ItemDto>();
 
-        public Guid SpaceId { get; set; }
+        public Guid SpaceDtoId { get; set; }
+        [JsonIgnore]
+        public SpaceDto SpaceDto { get; set; } = new SpaceDto();
     }
 }

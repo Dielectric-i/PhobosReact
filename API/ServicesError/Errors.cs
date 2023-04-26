@@ -10,10 +10,10 @@ namespace PhobosReact.API.ServicesError
                 code: "Space.NotFound",
                 description: "Space not found"
                 );
-            public static Error CreationFailed(Exception ex) => Error.Failure(
+            public static Error RepositoryExceprion(Exception ex) => Error.Failure(
 
-                 code: "Space.CreationFailed",
-                description: "Failed to create Space"
+                 code: "Space.RepositoryExceprion",
+                description: "Some problem occured in SpaceRepository"
                 );
         }
 
@@ -25,8 +25,8 @@ namespace PhobosReact.API.ServicesError
                 );
             public static Error RepositoryExceprion(Exception ex) => Error.Failure(
 
-                 code: "Box.CreationFailed",
-                description: "Failed to create Box"
+                 code: "Box.RepositoryExceprion",
+                description: "Some problem occured in BoxRepository"
                 );
         }
     }

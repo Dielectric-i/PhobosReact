@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PhobosReact.API.Data.Dto;
 
 namespace PhobosReact.API.Contracts
 {
-    public record CreateBoxRequest
-    (
-        [Required] string Name,
-        [Required] Guid SpaceId
-    );
+    public record CreateBoxRequest(
+        
+        string BoxName,
+        Guid? ParentBoxId,
+        Guid SpaceDtoId
+        );
 }

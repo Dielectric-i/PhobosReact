@@ -1,14 +1,12 @@
 ﻿using ErrorOr;
-using PhobosReact.API.Contracts;
 using PhobosReact.API.Data.Dto;
-using static PhobosReact.API.ServicesError.Errors;
 
-namespace PhobosReact.API.Models.Warehouse
+namespace PhobosReact.API.Data.Models
 {
     public class Box
     {
         public Guid Id { get; }
-        public string Name { get;  }
+        public string Name { get; }
 
         public Guid? ParentBoxId { get; set; }
 
@@ -51,11 +49,6 @@ namespace PhobosReact.API.Models.Warehouse
                 items: items = new List<Item>(),
                 spaceId: spaceId);
         }
-        public static ErrorOr<Box> From(CreateBoxRequest request)
-        {
-            return Create(request.Name, request.SpaceId);
-        }
-
 
         // Mapping Dto
         public static Box From(BoxDto boxDto)
@@ -64,7 +57,7 @@ namespace PhobosReact.API.Models.Warehouse
             var boxesBox = new List<Box>();
             foreach (var boxBoxDto in boxDto.Boxes)
             {
-                boxesBox.Add(Box.From(boxBoxDto));
+                boxesBox.Add(From(boxBoxDto));
             }
 
             // boxDto.Items в box.Items
@@ -80,7 +73,7 @@ namespace PhobosReact.API.Models.Warehouse
                 parentBoxId: boxDto.ParentBoxId,
                 boxes: boxesBox,
                 items: itemsBox,
-                spaceId: boxDto.SpaceId);
+                spaceId: boxDto.SpaceDtoId);
 
         }
         public BoxDto BoxToDto(Box box)
@@ -98,7 +91,7 @@ namespace PhobosReact.API.Models.Warehouse
             {
                 itemsBoxDto.Add(itemBox.ItemToDto(itemBox));
             }
-            
+
             return new BoxDto
             {
                 Id = box.Id,
@@ -106,7 +99,7 @@ namespace PhobosReact.API.Models.Warehouse
                 ParentBoxId = box.ParentBoxId,
                 Boxes = boxesBoxDto,
                 Items = itemsBoxDto,
-                SpaceId = box.SpaceId
+                SpaceDtoId = box.SpaceId
             };
         }
     }

@@ -1,6 +1,8 @@
 ﻿using ErrorOr;
+using PhobosReact.API.Contracts;
 using PhobosReact.API.Data.Dto;
-using PhobosReact.API.Models.Warehouse;
+using PhobosReact.API.Data.Interfaces;
+using PhobosReact.API.Data.Models;
 
 namespace PhobosReact.API.Services
 {
@@ -46,19 +48,18 @@ namespace PhobosReact.API.Services
                 parentBoxId: boxDto.ParentBoxId,
                 boxes: boxesBox,
                 items: itemsBox,
-                spaceId: boxDto.SpaceId);
+                spaceId: boxDto.SpaceDtoId);
         }
 
-        public ErrorOr<BoxDto> ToDto(Box box)
+        public async Task<ErrorOr<BoxDto>> ToDto(Box box)
         {
             List<Error> errors = new();
 
-            // box.Boxes в boxDto.Boxes
+            // Boxes
             var boxesBoxDto = new List<BoxDto>();
-
             foreach (var boxBox in box.Boxes)
             {
-                ErrorOr<BoxDto> resultDto = ToDto(boxBox);
+                ErrorOr<BoxDto> resultDto =await ToDto(boxBox);
 
                 if (resultDto.IsError)
                     errors.AddRange(resultDto.Errors);
@@ -66,12 +67,14 @@ namespace PhobosReact.API.Services
 
             }
 
-            // box.Items в boxDto.Items
+
+            // Items
             var itemsBoxDto = new List<ItemDto>();
             foreach (var itemBox in box.Items)
             {
                 itemsBoxDto.Add(itemBox.ItemToDto(itemBox));
             }
+
 
             return new BoxDto
             {
@@ -80,8 +83,17 @@ namespace PhobosReact.API.Services
                 ParentBoxId = box.ParentBoxId,
                 Boxes = boxesBoxDto,
                 Items = itemsBoxDto,
-                SpaceId = box.SpaceId
+                SpaceDtoId = box.SpaceId,
             };
+        }
+        
+        public ErrorOr<Box> BoxFromCreateBoxRequest(CreateBoxRequest request)
+        {
+            ErrorOr<Box> createBoxResult = Box.Create(
+                name: request.BoxName,
+                parentBoxId: request.ParentBoxId,
+                spaceId: request.SpaceDtoId);
+            return createBoxResult;
         }
 
         //       ITEM     //
@@ -143,7 +155,7 @@ namespace PhobosReact.API.Services
                 items: itemsSpace);
         }
 
-        public ErrorOr<SpaceDto> ToDto(Space space)
+        public async Task<ErrorOr<SpaceDto>> ToDto(Space space)
         {
             List<Error> errors = new();
 
@@ -152,7 +164,7 @@ namespace PhobosReact.API.Services
 
             foreach (var boxSpace in space.Boxes)
             {
-                ErrorOr<BoxDto> resultBoxDto = ToDto(boxSpace);
+                ErrorOr<BoxDto> resultBoxDto = await ToDto(boxSpace);
 
                 if (resultBoxDto.IsError)
                     errors.AddRange(resultBoxDto.Errors);

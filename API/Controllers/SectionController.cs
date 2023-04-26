@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PhobosReact.API.Models;
+using PhobosReact.API.Data.Models;
 
 namespace PhobosReact.API.Controllers
 {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PhobosReact.Migrations
 {
     /// <inheritdoc />
-    public partial class addDto : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,8 +33,9 @@ namespace PhobosReact.Migrations
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     Name = table.Column<string>(type: "longtext", nullable: false),
-                    BoxDtoId = table.Column<Guid>(type: "char(36)", nullable: true),
-                    SpaceDtoId = table.Column<Guid>(type: "char(36)", nullable: true)
+                    ParentBoxId = table.Column<Guid>(type: "char(36)", nullable: true),
+                    SpaceDtoId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    BoxDtoId = table.Column<Guid>(type: "char(36)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,7 +49,8 @@ namespace PhobosReact.Migrations
                         name: "FK_Boxes_Spaces_SpaceDtoId",
                         column: x => x.SpaceDtoId,
                         principalTable: "Spaces",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 

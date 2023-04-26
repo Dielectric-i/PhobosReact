@@ -1,29 +1,33 @@
 ﻿using ErrorOr;
+using PhobosReact.API.Contracts;
 using PhobosReact.API.Data.Dto;
 using PhobosReact.API.Data.Interfaces;
-using PhobosReact.API.Models.Warehouse;
-using PhobosReact.API.ServicesError;
+using PhobosReact.API.Data.Models;
+using PhobosReact.API.Data.Repositories;
 
 namespace PhobosReact.API.Services
 {
     public class BoxService : IBoxService
     {
         private readonly IBoxRepository _boxRepository;
+        private readonly ISpaceRepository _spaceRepository;
         private readonly IMappingService _mappingService;
         public BoxService(IBoxRepository boxRepository,
-                          IMappingService mappingService)
+                          IMappingService mappingService,
+                          ISpaceRepository spaceRepository)
         {
             _boxRepository = boxRepository;
             _mappingService = mappingService;
+            _spaceRepository = spaceRepository;
         }
 
-        public async Task<ErrorOr<BoxDto>> CreateBox(BoxDto boxDtoRequest)
+        public async Task<ErrorOr<BoxDto>> CreateBox(CreateBoxRequest request)
         {
             // Общий список ошибок метода
-            List<Error> errors = new List<Error>();
+           var errors = new List<Error>();
 
-            // 1. Создаем Box из Dto. В модели Box происходит валидация
-            ErrorOr<Box> resultFtomDto = _mappingService.FromDto(boxDtoRequest);
+            // 1. Создаем Box из CreateBoxRequest. В модели Box происходит валидация
+            ErrorOr<Box> resultFtomDto = _mappingService.BoxFromCreateBoxRequest(request);
 
             if (resultFtomDto.IsError)
             {
@@ -37,7 +41,7 @@ namespace PhobosReact.API.Services
             //----------------------------------
 
             // 2. Box to Dto
-            ErrorOr<BoxDto> resultToDto = _mappingService.ToDto(box);
+            ErrorOr<BoxDto> resultToDto =await _mappingService.ToDto(box);
 
             if (resultToDto.IsError)
             {
@@ -46,22 +50,29 @@ namespace PhobosReact.API.Services
 
             var boxDto = resultToDto.Value;
 
-            // 3. Передаем Dto в репозиторий
-            ErrorOr<BoxDto> resultCreateBox = await _boxRepository.CreateBox(boxDto);
+            // 3. Заполняем поле SpaceDto и передаем в репозиторий
 
-            if (resultCreateBox.IsError)
+            ErrorOr<SpaceDto> getSpaceDtoResult = await _spaceRepository.GetSpace(box.SpaceId);
+            if (getSpaceDtoResult.IsError)
             {
-                errors.AddRange(resultCreateBox.Errors);
+                errors.AddRange(getSpaceDtoResult.Errors);
             }
+            boxDto.SpaceDto = getSpaceDtoResult.Value;
 
-            var boxDtoResponce = resultCreateBox.Value;
+
+            ErrorOr<BoxDto> createBoxResult = await _boxRepository.CreateBox(boxDto);
+
+            if (createBoxResult.IsError)
+            {
+                errors.AddRange(createBoxResult.Errors);
+            }
 
             if (errors.Count > 0)
             {
                 return errors;
             }
 
-            return boxDtoResponce;
+            return createBoxResult.Value;
 
         }
 

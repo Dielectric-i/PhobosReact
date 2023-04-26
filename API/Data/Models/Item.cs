@@ -1,7 +1,7 @@
 ﻿using ErrorOr;
 using PhobosReact.API.Data.Dto;
 
-namespace PhobosReact.API.Models.Warehouse
+namespace PhobosReact.API.Data.Models
 {
     public class Item
     {

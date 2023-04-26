@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PhobosReact.API.Data.Dto;
 using PhobosReact.API.Data.Interfaces;
-using PhobosReact.API.Models.Warehouse;
 using PhobosReact.API.ServicesError;
 
 namespace PhobosReact.API.Data.Repositories
@@ -16,31 +15,37 @@ namespace PhobosReact.API.Data.Repositories
             _context = context;
         }
 
-        public async Task<ErrorOr<Created>> CreateSpace(Space space)
+        public async Task<ErrorOr<SpaceDto>> CreateSpace(SpaceDto spaceDto)
         {
             try
             {
-                SpaceDto spaceDto = space.SpaceToDto(space);
-
                 await _context.AddAsync<SpaceDto>(spaceDto);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
 
-                return Errors.Space.CreationFailed(ex);
+                return Errors.Space.RepositoryExceprion(ex);
             }
-            return Result.Created;
+            return spaceDto;
         }
-        public async Task<ErrorOr<Space>> GetSpace(Guid id)
+
+        public async Task<ErrorOr<SpaceDto>> GetSpace(Guid id)
         {
             // Get Dto From Db
-            var space = await _context.Spaces.Include(space => space.Boxes)
-                                                   .FirstOrDefaultAsync(space => space.Id == id);
+            var spaceDto = new SpaceDto();
 
-            //TODO add null check
+            try
+            {
+                spaceDto = await _context.Spaces.Include(space => space.Boxes)
+                                                .FirstOrDefaultAsync(space => space.Id == id);
+            }
+            catch (Exception ex)
+            {
+                return Errors.Space.RepositoryExceprion(ex);
+            }
 
-            return Space.From(space);
+            return spaceDto;
         }
 
         public async Task<ErrorOr<IEnumerable<SpaceDto>>> GetAllSpaces()

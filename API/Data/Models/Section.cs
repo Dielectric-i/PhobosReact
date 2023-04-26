@@ -1,4 +1,4 @@
-﻿namespace PhobosReact.API.Models
+﻿namespace PhobosReact.API.Data.Models
 {
     public class Section
     {
