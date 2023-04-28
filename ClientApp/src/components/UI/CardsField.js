@@ -1,5 +1,6 @@
 import SectionCard from './SectionCard';
 import SpaceCard from './SpaceCard';
+import JustCard from './JustCard';
 import styles from './CardsField.module.css'
 
 
@@ -17,8 +18,7 @@ const CardsField = ({ cards }) => {
             const CardComponent = actions[card.type];
             return <CardComponent key={card.id} card={card} />;
         } else {
-            console.log('Действие по умолчанию');
-            return <div>Default action</div>
+            return <JustCard card={card} />
         }
     });
 
