@@ -1,14 +1,17 @@
 import styles from './JustCard.module.css';
+import { Link } from 'react-router-dom';
 
-const JustCard = ({ card }) =>
+const JustCard = ({ entity }) =>
 {
 
     return (
-        <div className={styles.card}>
-            <div className={styles.cardHeader}>
-                <h2>{card.name}</h2>
+        <Link to={`${entity.type}/${entity.name}`} state={{ spaceData: entity }}>
+            <div className={styles.card}>
+                <div className={styles.cardHeader}>
+                    <h2>{entity.name}</h2>
+                </div>
             </div>
-        </div>
+        </Link>
     )
 }
 export default JustCard;

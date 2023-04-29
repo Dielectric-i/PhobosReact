@@ -5,27 +5,24 @@ import styles from './CardsField.module.css'
 
 
 
-const CardsField = ({ cards }) => {
-
-    // Выбираем карточку в зависимости от типа объекта
-    const Cards = cards && cards.map((card) => {
+const CardsField = ({ entities }) => {
+    const Cards = entities && entities.map((entity) => {
 
         const actions = {
             Section: SectionCard,
-            Space:  SpaceCard,
+            Space: JustCard,
         };
-        if (actions.hasOwnProperty(card.type)) {
-            const CardComponent = actions[card.type];
-            return <CardComponent key={card.id} card={card} />;
+        if (actions.hasOwnProperty(entity.type)) {
+            const CardComponent = actions[entity.type];
+            return <CardComponent key={entity.id} entity={entity} />;
         } else {
-            return <JustCard card={card} />
+            return <JustCard key={entity.id} entity={entity} />
         }
     });
 
-
     return (
         <div className={styles.cardsField}>
-            {Cards}
+            {Cards} <JustCard key="123" entity='' />
         </div>
     )
 }

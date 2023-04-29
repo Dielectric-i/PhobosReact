@@ -16,7 +16,7 @@ const SpacePage = () => {
         <div className={styles.spacePage}>
             <UpperPanel title={spaceData.name} />
             {
-                <CardsField cards={spaceData.boxes } />
+                <CardsField entities={spaceData.boxes } />
             }
         </div>
     );

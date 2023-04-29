@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styles from './SectionCard.module.css';
 
-const SectionCard = ({ entity}) =>
+const SectionCard = ({ card}) =>
 {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`/${entity.name}`);
+        navigate(`/${card.name}`);
     };
 
     const handleButtonClick = (event) => {
@@ -17,13 +17,13 @@ const SectionCard = ({ entity}) =>
     return (
         <div className={styles.card} onClick={handleCardClick}>
             <div className={styles.cardHeader}>
-                <h2>{entity.name}</h2>
+                <h2>{card.name}</h2>
             </div>
             <div className={styles.cardContent}>
                 <p>SectionCard </p>
                 <button onClick={handleButtonClick}>button</button>
             </div>
-            <img className={styles.cardImage} src={`/Images/${entity.name}.png`} alt="" />
+            <img className={styles.cardImage} src={`/Images/${card.name}.png`} alt="" />
 
         </div>
     )

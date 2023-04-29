@@ -1,7 +1,7 @@
-import UpperPanel from '../UI/UpperPanel'
-import CardsField from '../UI/CardsField';
 import { useEffect, useState } from 'react';
-import typeMappings from '../Share/typeMappings';
+import { getDataFromApi } from '../Share/Data/Api';
+import CardsField from '../UI/CardsField';
+import UpperPanel from '../UI/UpperPanel';
 
 const Main = () => {
 
@@ -10,34 +10,18 @@ const Main = () => {
 
 
     // Get data from api
-    useEffect(() => { getDataFromApi() }, []);
 
     const apiEndpoints = ['/api/section/GetAllSections'];
-    const [cards, setCards] = useState([]);
+    const [entities, setEntities] = useState([]);
 
-
-    function getDataFromApi() {
-
-        const fetchPromises = apiEndpoints.map(endpoint =>  // Массив промисов вызова эндпойнта
-            fetch(endpoint)
-                .then(res => res.json())
-                .then(data => data.map(card => ({ ...card, type: typeMappings[endpoint] }))) // Добавляем type каждому полученному объекту.  По названию эндпойнта идентифицируем тип объекта
-        );
-
-        Promise.all(fetchPromises).
-            then(results => {
-                const mergetCards = results.reduce((acc, curr) => acc.concat(curr), []); //Сшиваем все объекты и получаем подготовленый массив для вывода карточек
-                setCards(mergetCards);
-            })
-    }
-
+    useEffect(() => { getDataFromApi(apiEndpoints, setEntities) }, []);
 
 
     return (
         <div className='main'>
             <UpperPanel title={title} />
             {
-                <CardsField cards={cards} />
+                <CardsField entities={entities} />
             }
         </div>
     )
