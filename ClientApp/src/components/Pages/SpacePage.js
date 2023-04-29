@@ -5,6 +5,7 @@ import CardsField from '../UI/CardsField';
 import { useLocation } from 'react-router-dom';
 
 
+
 const SpacePage = () => {
 
     const location = useLocation();
@@ -16,7 +17,7 @@ const SpacePage = () => {
         <div className={styles.spacePage}>
             <UpperPanel title={spaceData.name} />
             {
-                <CardsField entities={spaceData.boxes } />
+                <CardsField entities={spaceData.boxes} />
             }
         </div>
     );

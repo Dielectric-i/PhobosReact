@@ -3,6 +3,7 @@ import styles from './Warehouse.module.css';
 import UpperPanel from '../UI/UpperPanel'
 import CardsField from '../UI/CardsField';
 import { getDataFromApi } from '../Share/Data/Api';
+import CreateSpaceForm from '../UI/Forms/CreateSpaceForm';
 
 const Warehouse = () => {
 
@@ -20,7 +21,7 @@ const Warehouse = () => {
         <div className={styles.warehouse}>
             <UpperPanel title={title} />
             {
-                <CardsField entities={entities } />
+                <CardsField entities={entities} createEntityesForm={<CreateSpaceForm />} />
             }
         </div>
     );

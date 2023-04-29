@@ -1,11 +1,11 @@
 import SectionCard from './SectionCard';
-import SpaceCard from './SpaceCard';
 import JustCard from './JustCard';
 import styles from './CardsField.module.css'
+import CreateEntityCard from './CreateEntityCard ';
 
 
 
-const CardsField = ({ entities }) => {
+const CardsField = ({ entities, createEntityesForm }) => {
     const Cards = entities && entities.map((entity) => {
 
         const actions = {
@@ -22,7 +22,8 @@ const CardsField = ({ entities }) => {
 
     return (
         <div className={styles.cardsField}>
-            {Cards} <JustCard key="123" entity='' />
+            {Cards}
+            {createEntityesForm && <CreateEntityCard createEntityesForm={createEntityesForm} />}
         </div>
     )
 }
