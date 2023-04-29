@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Warehouse.module.css';
 import UpperPanel from '../UI/UpperPanel'
 import CardsField from '../UI/CardsField';
-import typeMappings from '../Share/typeMappings';
+import { getDataFromApi } from '../Share/Data/Api';
 
 const Warehouse = () => {
 
@@ -10,32 +10,17 @@ const Warehouse = () => {
 
 
     // Get data from api
-    useEffect(() => { getDataFromApi(); }, []);
-
     const apiEndpoints = ['/api/space/GetAllSpaces'];
-    const [cards, setCards] = useState([]);
-    const [selectedSpace, setSelectedSpace] = useState(null);
+    const [entities, setEntities] = useState([]);
 
-    function getDataFromApi() {
+    useEffect(() => { getDataFromApi(apiEndpoints, setEntities); }, []);
 
-        const fetchPromises = apiEndpoints.map(endpoint =>  // Массив промисов вызова эндпойнта
-            fetch(endpoint)
-                .then(res => res.json())
-                .then(data => data.map(card => ({ ...card, type: typeMappings[endpoint] }))) // Добавляем type каждому полученному объекту.  По названию эндпойнта идентифицируем тип объекта
-        );
-
-        Promise.all(fetchPromises).
-            then(results => {
-                const mergetCards = results.reduce((acc, curr) => acc.concat(curr), []); //Сшиваем все объекты и получаем подготовленый массив для вывода карточек
-                setCards(mergetCards);
-            })
-    }
 
     return (
         <div className={styles.warehouse}>
             <UpperPanel title={title} />
             {
-                <CardsField cards={cards } />
+                <CardsField entities={entities } />
             }
         </div>
     );

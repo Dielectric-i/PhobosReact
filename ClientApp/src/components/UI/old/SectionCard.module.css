@@ -1,0 +1,34 @@
+﻿.card {
+    position: relative;
+    border: 2px solid rgb(255, 255, 255, 0.5);
+    background-color: rgb(255, 255, 255, 0.05);
+    overflow: hidden;
+    flex: 0 0 30%; /* Задаем жесткую ширину в 30% и запрещаем ее увеличение или уменьшение */
+    min-width: 300px; /* Задаем минимальную ширину элемента .card */
+}
+
+.cardImage {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100%;
+    opacity: 0.1;
+}
+
+.cardContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f8f8f8;
+    z-index: 5
+}
+.cardHeader {
+    margin-top:10px;
+    text-align: center;
+}

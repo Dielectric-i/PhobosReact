@@ -1,0 +1,40 @@
+﻿.UpperPanel {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    display: flex;
+    flex-grow: 1;
+    justify-content: right;
+    align-items: center;
+    height: 100%;
+}
+    .logo img {
+        max-height: 100%;
+        max-width: 100%;
+        margin-right: 5%;
+    }
+
+.title {
+    display: flex;
+    flex-grow: 1;
+    justify-content: left;
+    align-items: center;
+    height: 100%;
+}
+.separator {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left: 5%;
+    margin-right: 5%
+}
+
+.logo, .title {
+    cursor: pointer;
+}

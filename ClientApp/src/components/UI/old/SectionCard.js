@@ -1,13 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import styles from './SpaceCard.module.css';
-import CardsField from './CardsField';
+import styles from './SectionCard.module.css';
 
-const SpaceCard = ({ title, type, children }) =>
+const SectionCard = ({ card}) =>
 {
     const navigate = useNavigate();
 
     const handleCardClick = () => {
-        navigate(`space/${title}`);
+        navigate(`/${card.name}`);
     };
 
     const handleButtonClick = (event) => {
@@ -18,14 +17,15 @@ const SpaceCard = ({ title, type, children }) =>
     return (
         <div className={styles.card} onClick={handleCardClick}>
             <div className={styles.cardHeader}>
-                    <h2>{title}</h2>
+                <h2>{card.name}</h2>
             </div>
             <div className={styles.cardContent}>
-                {children && <CardsField cards={children} />}
-                <button onClick={handleButtonClick}>SpaceCard</button>
+                <p>SectionCard </p>
+                <button onClick={handleButtonClick}>button</button>
             </div>
-            <img className={styles.cardImage} src={`/Images/${type}/${title}.png`} alt="" />
+            <img className={styles.cardImage} src={`/Images/${card.name}.png`} alt="" />
+
         </div>
     )
 }
-export default SpaceCard;
+export default SectionCard;
