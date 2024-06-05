@@ -5,12 +5,6 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhobosReact", "PhobosReact.csproj", "{6FB301A5-0296-472B-AD8A-438554B9C0CE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactWithNetWebApiBasicAppTutorial", "..\..\Tutorials\freeCodeCamp\ReactWithNetWebApiBasicAppTutorial\ReactWithNetWebApiBasicAppTutorial.csproj", "{57E701A2-C0BD-467E-92FC-D31612898E31}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhobosPages_3", "..\..\PhobosPages_3\PhobosPages_3.csproj", "{603FD724-76A2-4560-9B05-D1A3A73E202E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sense-Capital_XOGameApi", "..\..\Sense-Capital_XOGameApi\Sense-Capital_XOGameApi.csproj", "{C551148A-395B-4929-8CE0-B07B562E28ED}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
